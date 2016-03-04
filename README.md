@@ -8,6 +8,15 @@ All methods can throw exceptions: **BacktrackLimitException**, **BadUtf8Exceptio
 **InternalException**, **JitStackLimitException** and **RecursionLimitException** so you don't have to check
 with `preg_last_error()` and comparing defines;
 
+![PHP 7.0](https://img.shields.io/badge/PHP-7.0-8C9CB6.svg?style=flat)
+[![Build Status](https://travis-ci.org/madkom/regex.svg?branch=master)](https://travis-ci.org/madkom/regex)
+[![Latest Stable Version](https://poser.pugx.org/madkom/regex/v/stable)](https://packagist.org/packages/madkom/regex)
+[![Total Downloads](https://poser.pugx.org/madkom/regex/downloads)](https://packagist.org/packages/madkom/regex)
+[![License](https://poser.pugx.org/madkom/regex/license)](https://packagist.org/packages/madkom/regex)
+[![Coverage Status](https://coveralls.io/repos/github/madkom/regex/badge.svg?branch=master)](https://coveralls.io/github/madkom/regex?branch=master)
+[![Code Climate](https://codeclimate.com/github/madkom/regex/badges/gpa.svg)](https://codeclimate.com/github/madkom/regex)
+[![Issue Count](https://codeclimate.com/github/madkom/regex/badges/issue_count.svg)](https://codeclimate.com/github/madkom/regex)
+
 ---
 
 ## Installation
@@ -168,7 +177,30 @@ $splitted = $splitter->split($subject);
 //]
 ```
 
+Grepping array:
 
+```php
+use Madkom\RegEx\Grepper;
+use Madkom\RegEx\Pattern;
+
+$subjects = [
+    '<a href="http://madkom.pl">madkom.pl</a>',
+    '<a href="http://google.pl">google.pl</a>',
+    '<a href="http://bing.com">bing.com</a>',
+    '<a href="https://example.pl">example.pl</a>',
+    '<a href="https://example.org">example.org</a>',
+];
+
+$pattern = new Pattern('(http[s]?://[a-z0-9]+\.pl)');
+$grepper = new Grepper($pattern, 'iU');
+$grepped = $grepper->grep($subjects);
+
+//array:3 [
+//  0 => "<a href="http://madkom.pl">madkom.pl</a>"
+//  1 => "<a href="http://google.pl">google.pl</a>"
+//  3 => "<a href="https://example.pl">example.pl</a>"
+//]
+```
 
 ## License
 

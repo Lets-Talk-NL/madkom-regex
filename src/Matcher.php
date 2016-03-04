@@ -58,7 +58,7 @@ class Matcher
     {
         preg_match($this->pattern->getPattern() . $this->modifier, $subject, $matches, $flags, $offset);
 
-        if ($errno = preg_last_error() !== PREG_NO_ERROR) {
+        if (($errno = preg_last_error()) !== PREG_NO_ERROR) {
             $message = array_flip(get_defined_constants(true)['pcre'])[$errno];
             switch ($errno) {
                 case PREG_INTERNAL_ERROR:
@@ -96,7 +96,7 @@ class Matcher
     {
         preg_match_all($this->pattern->getPattern() . $this->modifier, $subject, $matches, $flags, $offset);
 
-        if ($errno = preg_last_error() !== PREG_NO_ERROR) {
+        if (($errno = preg_last_error()) !== PREG_NO_ERROR) {
             $message = array_flip(get_defined_constants(true)['pcre'])[$errno];
             switch ($errno) {
                 case PREG_INTERNAL_ERROR:

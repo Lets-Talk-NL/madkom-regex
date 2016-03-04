@@ -31,7 +31,7 @@ class Splitter
     private $modifier;
 
     /**
-     * Matcher constructor.
+     * Splitter constructor.
      * @param Pattern $pattern
      * @param string $modifier
      */
@@ -58,7 +58,7 @@ class Splitter
     {
         $result = preg_split($this->pattern->getPattern() . $this->modifier, $subject, $limit, $flags);
 
-        if ($errno = preg_last_error() !== PREG_NO_ERROR) {
+        if (($errno = preg_last_error()) !== PREG_NO_ERROR) {
             $message = array_flip(get_defined_constants(true)['pcre'])[$errno];
             switch ($errno) {
                 case PREG_INTERNAL_ERROR:

@@ -31,7 +31,7 @@ class Replacer
     private $modifier;
 
     /**
-     * Matcher constructor.
+     * Replacer constructor.
      * @param Pattern $pattern
      * @param string $modifier
      */
@@ -59,7 +59,7 @@ class Replacer
     {
         $result = preg_replace($this->pattern->getPattern() . $this->modifier, $replacement, $subject, $limit, $count);
 
-        if ($errno = preg_last_error() !== PREG_NO_ERROR) {
+        if (($errno = preg_last_error()) !== PREG_NO_ERROR) {
             $message = array_flip(get_defined_constants(true)['pcre'])[$errno];
             switch ($errno) {
                 case PREG_INTERNAL_ERROR:
@@ -98,7 +98,7 @@ class Replacer
     {
         $result = preg_replace_callback($this->pattern->getPattern() . $this->modifier, $handler, $subject, $limit, $count);
 
-        if ($errno = preg_last_error() !== PREG_NO_ERROR) {
+        if (($errno = preg_last_error()) !== PREG_NO_ERROR) {
             $message = array_flip(get_defined_constants(true)['pcre'])[$errno];
             switch ($errno) {
                 case PREG_INTERNAL_ERROR:
