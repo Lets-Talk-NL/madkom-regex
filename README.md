@@ -132,7 +132,7 @@ $subject = <<<EOL
 </html>
 EOL;
 
-$replaced = $this->replaceWith($subject, function ($match) {
+$replaced = $replacer->replaceWith($subject, function ($match) {
     return "<{$match[2]}xhtml:{$match[3]}>";
 });
 
@@ -142,6 +142,29 @@ $replaced = $this->replaceWith($subject, function ($match) {
 //<xhtml:body><xhtml:h1>Ala ma kota</xhtml:h1></xhtml:body>\n
 //</xhtml:html>
 ```
+
+Splitting:
+
+```php
+use Madkom\RegEx\Splitter;
+use Madkom\RegEx\Pattern;
+
+$subject = "html, simple, kayword, complex keyword, keyword with ; semicolon";
+
+$pattern = new Pattern('([,]\s*)');
+$splitter = new Splitter($pattern);
+$splitted = $splitter->split($subject);
+
+//array:5 [
+//  0 => "html"
+//  1 => "simple"
+//  2 => "kayword"
+//  3 => "complex keyword"
+//  4 => "keyword with ; semicolon"
+//]
+```
+
+
 
 ## License
 

@@ -5,8 +5,8 @@
  * Date: 04.03.16
  * Time: 12:20
  */
-
 namespace Madkom\RegEx;
+
 use Madkom\RegEx\Exception\BacktrackLimitException;
 use Madkom\RegEx\Exception\BadUtf8Exception;
 use Madkom\RegEx\Exception\BadUtf8OffsetException;
