@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<project name="regex" default="test" basedir=".">
+    <target name="test" depends="-lint,-phpspec,-phpunit,-phpcs">
+        <exec command="bin/phpcov merge --clover tests/coverage/clover.xml tests/coverage/" checkreturn="true" passthru="true"/>
+        <!--<exec command="bin/coveralls" checkreturn="true" passthru="true"/>-->
+        <exec command="bin/clover-dump --warning-percentage=70 --error-percentage=50 --fail-at=40 --ansi tests/coverage/clover.xml" checkreturn="true" passthru="true"/>
+        <exec command="bin/phpcov merge --html=tests/coverage/raport tests/coverage/"/>
+    </target>
+    <target name="-lint" hidden="true">
+        <exec command="bin/parallel-lint --exclude app --exclude vendor ." checkreturn="true" passthru="true"/>
+    </target>
+    <target name="-phpunit" hidden="true">
+        <exec command="bin/phpunit --coverage-php tests/coverage/phpunit.cov tests" checkreturn="true" passthru="true"/>
+    </target>
+    <target name="-phpspec" hidden="true">
+        <exec command="bin/phpspec run --format=pretty --no-code-generation" checkreturn="true" passthru="true"/>
+    </target>
+    <target name="-phpcs" hidden="true">
+        <exec command="bin/phpcs --colors -wp src --report=summary --standard=PSR2,phpcs.xml" checkreturn="true" passthru="true"/>
+    </target>
+    <target name="docker">
+        <property name="status" value=""/>
+        <if>
+            <available file=".cid" type="file"/>
+            <then>
+                <loadfile property="cid" file=".cid"/>
+                <if>
+                    <equals arg1="${cid}" arg2=""/>
+                    <else>
+                        <exec command="docker inspect -f '{{.State.Status}}' ${cid}" outputProperty="status" checkreturn="true"/>
+                    </else>
+                </if>
+            </then>
+        </if>
+        <if>
+            <equals arg1="${status}" arg2="running"/>
+            <then>
+                <exec command="docker exec -it ${cid} /bin/bash" passthru="true"/>
+            </then>
+            <else>
+                <delete file=".cid"/>
+                <exec command="docker run -d -v ${project.basedir}:/${phing.project.name} -w /${phing.project.name} --cidfile .cid registry.madkom.pl/php:7-ci sleep 999d" checkreturn="true" outputProperty="cid"/>
+                <exec command="docker exec -it ${cid} /bin/bash" passthru="true"/>
+            </else>
+        </if>
+    </target>
+</project>

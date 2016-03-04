@@ -1,0 +1,6 @@
+.idea
+.cid
+bin
+vendor
+tests/coverage/*
+test.php
