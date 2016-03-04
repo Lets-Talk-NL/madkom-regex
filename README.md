@@ -4,6 +4,10 @@ PCRE RegEx wrapper around PHP regular expression functions
 Whis package maintain various PCRE element implementations in Object Oriented way.
 Including **Pattern**, **Matcher**, **Replacer** and **Splitter** objects.
 
+All methods can throw exceptions: **BacktrackLimitException**, **BadUtf8Exception**, **BadUtf8OffsetException**,
+**InternalException**, **JitStackLimitException** and **RecursionLimitException** so you don't have to check
+with `preg_last_error()` and comparing defines;
+
 ---
 
 ## Installation
